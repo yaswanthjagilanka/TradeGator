@@ -42,5 +42,7 @@ fig.update_xaxes(
 # Show
 fig.show()
 
-def scrape_data():
-    pass
+
+def scrape_data(start_period, end_period, ticker_stock=ticker_stock):
+    data = yf.download(tickers=ticker_stock, start=start_period, end=end_period)
+    return data
