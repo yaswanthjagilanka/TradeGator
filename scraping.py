@@ -43,6 +43,5 @@ fig.update_xaxes(
 fig.show()
 
 
-def scrape_data(start_period, end_period, ticker_stock=ticker_stock):
-    data = yf.download(tickers=ticker_stock, start=start_period, end=end_period)
-    return data
+def scrape_data(start_period, end_period, ticker_stock='AAPL'):
+    return yf.download(tickers=ticker_stock, start=start_period, end=end_period)

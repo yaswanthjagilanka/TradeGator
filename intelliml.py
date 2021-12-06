@@ -4,6 +4,10 @@ import numpy as np
 import pandas as pd
 
 
+def ensemble_prediction():
+    pass
+
+
 def run_prophet(data=data, predict_period=predict_period):
     # data1 = data.reset_index()
     # data1 = data1[["Date", "Open"]]
