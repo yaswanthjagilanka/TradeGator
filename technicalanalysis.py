@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import datetime
 from sklearn import linear_model
 
 
@@ -14,18 +13,25 @@ def find_trend(data, days=10):
     linear_model.LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)
     model = linear_model.LinearRegression().fit(x, y)
     slope = model.coef_
-    if slope * 100 > 15:
+    print("Slope in this stock is :",slope)
+    if abs(slope * 100) > 15:
         print("change in current share ",slope*100)
         return True
     else:
         return False
 
 
-def find_macd(data, span=20):
+def find_ema(data, span=20):
     return data.values.ewm(span=span, adjust=False).mean()
 
+def find_macd(data,span_long = 26,span_short = 12):
+    ShortEMA = data.Close.ewm(span=span_short, adjust=False).mean()
+    LongEMA = data.Close.ewm(span=span_long, adjust=False).mean()
+    MACD = ShortEMA - LongEMA
+    signal = MACD.ewm(span=9, adjust=False).mean()
+    return signal
 
-def rsi(data, span=14):
+def find_rsi(data, span=14):
     ## span_Day RSI
     data['Up Move'] = np.nan
     data['Down Move'] = np.nan
@@ -60,17 +66,7 @@ def rsi(data, span=14):
     return data
 
 
-def find_cpr(data):
-    data['Pivot'] = (data['High'] + data['Low'] + data['Close']) / 3
-    data['R1'] = 2 * data['Pivot'] - data['Low']
-    data['S1'] = 2 * data['Pivot'] - data['High']
-    data['R2'] = data['Pivot'] + (data['High'] - data['Low'])
-    data['S2'] = data['Pivot'] - (data['High'] - data['Low'])
-    data['R3'] = data['Pivot'] + 2 * (data['High'] - data['Low'])
-    data['S3'] = data['Pivot'] - 2 * (data['High'] - data['Low'])
-    next_day = data.tail(1).reset_index()[['Pivot', 'R1', 'R2', 'R3', 'S1', 'S2', 'S3']].to_dict()
-    data[['Pivot', 'R1', 'R2', 'R3', 'S1', 'S2', 'S3']] = data[['Pivot', 'R1', 'R2', 'R3', 'S1', 'S2', 'S3']].shift(1)
-    return next_day, data
+
 
 
 def find_entry_exit(df):
@@ -106,5 +102,17 @@ def find_entry_exit(df):
             df['Strategy'][x] = df['Strategy'][x - 1] * (df['Adj Close'][x] / df['Adj Close'][x - 1])
         else:
             df['Strategy'][x] = df['Strategy'][x - 1]
-    return data
+    return df
+
+def find_cpr(data):
+    data['Pivot'] = (data['High'] + data['Low'] + data['Close']) / 3
+    data['R1'] = 2 * data['Pivot'] - data['Low']
+    data['S1'] = 2 * data['Pivot'] - data['High']
+    data['R2'] = data['Pivot'] + (data['High'] - data['Low'])
+    data['S2'] = data['Pivot'] - (data['High'] - data['Low'])
+    data['R3'] = data['Pivot'] + 2 * (data['High'] - data['Low'])
+    data['S3'] = data['Pivot'] - 2 * (data['High'] - data['Low'])
+    next_day = data.tail(1).reset_index()[['Pivot', 'R1', 'R2', 'R3', 'S1', 'S2', 'S3']].to_dict()
+    data[['Pivot', 'R1', 'R2', 'R3', 'S1', 'S2', 'S3']] = data[['Pivot', 'R1', 'R2', 'R3', 'S1', 'S2', 'S3']].shift(1)
+    return next_day, data
 
