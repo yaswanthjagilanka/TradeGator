@@ -111,6 +111,13 @@ def index():
     # return a response
     return render_template('index.html')
 
+@app.route('/')
+def index():
+    # projectpath = request.form['projectFilepath']
+    # your code
+    # return a response
+    return render_template('index.html')
+
 
 @app.route('/home')
 def home():
@@ -160,5 +167,5 @@ def get_candlestick(tickerstock):
     return my1_base64_jpgData
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=8080, debug=True)
