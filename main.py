@@ -112,7 +112,7 @@ def index():
     return render_template('index.html')
 
 @app.route('/')
-def index():
+def index1():
     # projectpath = request.form['projectFilepath']
     # your code
     # return a response
