@@ -12,15 +12,17 @@ from PIL import Image
 import base64
 import io
 import plotly.graph_objs as go
+import matplotlib
+matplotlib.use('Agg')
 
 import warnings
 
 warnings.filterwarnings("ignore")
 
-from technicalanalysis import *
-from scraping import *
+from wip.technicalanalysis import *
+from dataModule.scraping import *
 
-from intelliml import *
+from intelliModule.intelliml import *
 
 
 @app.route('/handle_data', methods=['POST'])
@@ -106,6 +108,13 @@ def handle_data():
 
 @app.route('/index')
 def index():
+    # projectpath = request.form['projectFilepath']
+    # your code
+    # return a response
+    return render_template('index.html')
+
+@app.route('/')
+def index1():
     # projectpath = request.form['projectFilepath']
     # your code
     # return a response

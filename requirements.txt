@@ -1,4 +1,11 @@
-numpy==1.21.4
+Flask==2.0.1
+pystan==2.19.1.1
+numpy==1.24.2
 pandas==1.2.4
+Pillow==9.4.0
 plotly==5.4.0
+prophet==1.1.2
+python_dateutil==2.8.2
+scikit_learn==1.2.1
 yfinance==0.1.67
+pre-commit
